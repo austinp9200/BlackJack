@@ -1,0 +1,46 @@
+#BlackJack App
+import random
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+def ask_question():
+    user_answer = input("Would you like to play BlackJack? Please type y or n. ")
+    if user_answer == "y":
+        play_blackjack()
+    else:
+        ask_question()
+
+def deal_card(list):
+    rand_card = random.randrange(0, len(cards)-1)
+    return list.append(cards[rand_card])
+
+def calculate_score(list):
+    return sum(list)
+
+def play_blackjack():
+    deal_card(user_cards)
+    deal_card(user_cards)
+    for cards in user_cards:
+        print("Your card: ", (cards))
+    deal_card(computer_cards)
+    print("Dealer card: ", computer_cards[0])
+
+    user_sum = calculate_score(user_cards)
+
+    keep_playing = print(input(f"You have a {user_sum} and the dealer is showing {computer_cards[0]} Would you like to Hit or Stay? Press h or s. "))
+    if keep_playing == "h":
+        keep_playing == True
+    while keep_playing == True:
+        deal_card(user_cards)
+        new_score = calculate_score(user_cards)
+        print(new_score)
+        if new_score > 21:
+            print("Player busts.")
+
+
+user_cards = []
+computer_cards = []
+
+ask_question()
+
+#def calculate_score:
