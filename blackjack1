@@ -1,8 +1,9 @@
-#BlackJack App
+#BlackJack App#BlackJack App
 import random
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
-
+user_cards = []
+computer_cards = []
 def ask_question():
     user_answer = input("Would you like to play BlackJack? Please type y or n. ")
     if user_answer == "y":
@@ -15,32 +16,54 @@ def deal_card(list):
     return list.append(cards[rand_card])
 
 def calculate_score(list):
+    if sum(list) == 21 and len(list) == 2:
+        return 0
+    if 11 in list and sum(list) > 21:
+        list.append(1)
+        list.remove(11)
     return sum(list)
 
+def compare(user_score, computer_score):
+    if user_score == computer_score:
+        return "Push"
+    elif computer_score == 0:
+        return "Dealer has BlackJack, player loses."
+    elif user_score == 0:
+        return "Player has BlackJack, player wins."
+    elif user_score > 21:
+        return "Player busts, dealer win."
+    elif computer_score > 21:
+        return "Dealer busts, player win."
+    elif user_score < computer_score:
+        return "Dealer Wins"
+    else:
+        return "Player Wins"
+
 def play_blackjack():
-    deal_card(user_cards)
-    deal_card(user_cards)
-    for cards in user_cards:
-        print("Your card: ", (cards))
-    deal_card(computer_cards)
-    print("Dealer card: ", computer_cards[0])
-
-    user_sum = calculate_score(user_cards)
-
-    keep_playing = print(input(f"You have a {user_sum} and the dealer is showing {computer_cards[0]} Would you like to Hit or Stay? Press h or s. "))
-    if keep_playing == "h":
-        keep_playing == True
-    while keep_playing == True:
+    is_game_over = False
+    for _ in range(2):
         deal_card(user_cards)
-        new_score = calculate_score(user_cards)
-        print(new_score)
-        if new_score > 21:
-            print("Player busts.")
+        deal_card(computer_cards)
+    while not is_game_over:
+        for cards in user_cards:
+            print("Your card: ", (cards))
+        print("Dealer card: ", computer_cards[0])
 
-
-user_cards = []
-computer_cards = []
-
+        user_score = calculate_score(user_cards)
+        computer_score = calculate_score(computer_cards)
+        print(f"You have a {user_score} and the dealer is showing {computer_cards[0]}.")
+        if user_score == 0 or computer_score == 0 or user_score > 21:
+            is_game_over = True
+        else:
+            keep_playing = input("Would you like to Hit or Stay? Press h or s. ")
+            if keep_playing == "h":
+                deal_card(user_cards)
+            else:
+                is_game_over = True
+    computer_score = calculate_score(computer_cards)
+    while computer_score != 0 and computer_score < 17:
+        deal_card(computer_cards)
+        computer_score = calculate_score(computer_cards)
+    print(f"The Dealers total is {computer_score}")
+    compare(user_score, computer_score)
 ask_question()
-
-#def calculate_score:
